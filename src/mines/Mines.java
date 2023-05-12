@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 
 // Source: http://zetcode.com/tutorials/javagamestutorial/minesweeper/
 
+// and this is the main class where the main function we call Board that call MinesAdapter 
 public class Mines extends JFrame {
     private static final long serialVersionUID = 4772165125287256837L;
 

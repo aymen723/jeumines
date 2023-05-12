@@ -1,16 +1,13 @@
 package mines;
 
 import java.awt.Graphics;
-
 import java.awt.Image;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Random;
-
+import java.security.SecureRandom;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+// and changed here the indentifier for the variables from priavte to public 
 public class Board extends JPanel {
     private static final long serialVersionUID = 6195235521361212179L;
 
@@ -29,55 +26,15 @@ public class Board extends JPanel {
     public final int DRAW_MARK = 11;
     public final int DRAW_WRONG_MARK = 12;
 
-    private int[] field;
-    private boolean inGame;
+    public int[] field;
+    public boolean inGame;
     public int mines_left;
-    private Image[] img;
+    public Image[] img;
     public final int mines = 40;
     public final int rows = 16;
     public final int cols = 16;
-    private int all_cells;
-    private JLabel statusbar;
-
-    public int[] getField() {
-        return field;
-    }
-
-    public void setField(int[] field) {
-        this.field = field;
-    }
-
-    public boolean isInGame() {
-        return inGame;
-    }
-
-    public void setInGame(boolean inGame) {
-        this.inGame = inGame;
-    }
-
-    public Image[] getImg() {
-        return img;
-    }
-
-    public void setImg(Image[] img) {
-        this.img = img;
-    }
-
-    public int getAll_cells() {
-        return all_cells;
-    }
-
-    public void setAll_cells(int all_cells) {
-        this.all_cells = all_cells;
-    }
-
-    public JLabel getStatusbar() {
-        return statusbar;
-    }
-
-    public void setStatusbar(JLabel statusbar) {
-        this.statusbar = statusbar;
-    }
+    public int all_cells;
+    public JLabel statusbar;
 
     public Board(JLabel statusbar) {
 
@@ -97,86 +54,12 @@ public class Board extends JPanel {
 
     }
 
-    // public void newGame() {
-
-    // Random random;
-    // int current_col;
-
-    // int i = 0;
-    // int position = 0;
-    // int cell = 0;
-
-    // random = new Random();
-    // inGame = true;
-    // mines_left = mines;
-
-    // all_cells = rows * cols;
-    // field = new int[all_cells];
-
-    // for (i = 0; i < all_cells; i++)
-    // field[i] = COVER_FOR_CELL;
-
-    // statusbar.setText(Integer.toString(mines_left));
-
-    // i = 0;
-    // while (i < mines) {
-
-    // position = (int) (all_cells * random.nextDouble());
-
-    // if ((position < all_cells) &&
-    // (field[position] != COVERED_MINE_CELL)) {
-
-    // current_col = position % cols;
-    // field[position] = COVERED_MINE_CELL;
-    // i++;
-
-    // if (current_col > 0) {
-    // cell = position - 1 - cols;
-    // if (cell >= 0)
-    // if (field[cell] != COVERED_MINE_CELL)
-    // field[cell] += 1;
-    // cell = position - 1;
-    // if (cell >= 0)
-    // if (field[cell] != COVERED_MINE_CELL)
-    // field[cell] += 1;
-
-    // cell = position + cols - 1;
-    // if (cell < all_cells)
-    // if (field[cell] != COVERED_MINE_CELL)
-    // field[cell] += 1;
-    // }
-
-    // cell = position - cols;
-    // if (cell >= 0)
-    // if (field[cell] != COVERED_MINE_CELL)
-    // field[cell] += 1;
-    // cell = position + cols;
-    // if (cell < all_cells)
-    // if (field[cell] != COVERED_MINE_CELL)
-    // field[cell] += 1;
-
-    // if (current_col < (cols - 1)) {
-    // cell = position - cols + 1;
-    // if (cell >= 0)
-    // if (field[cell] != COVERED_MINE_CELL)
-    // field[cell] += 1;
-    // cell = position + cols + 1;
-    // if (cell < all_cells)
-    // if (field[cell] != COVERED_MINE_CELL)
-    // field[cell] += 1;
-    // cell = position + 1;
-    // if (cell < all_cells)
-    // if (field[cell] != COVERED_MINE_CELL)
-    // field[cell] += 1;
-    // }
-    // }
-    // }
-    // }
-
     // made the if blocks in the function newGame more readable without touching the
     // logic behind it
     public void newGame() {
-        Random random = new Random();
+        // we changed Random to SecureRandom to make it more Secure and better random
+        // generator
+        SecureRandom random = new SecureRandom();
         int current_col;
 
         int i = 0;
@@ -246,79 +129,79 @@ public class Board extends JPanel {
         }
     }
 
+    // and also changed the if blocks in this function to make it more readable
+    // without touching the logic
     public void find_empty_cells(int j) {
-
         int current_col = j % cols;
         int cell;
 
         if (current_col > 0) {
             cell = j - cols - 1;
-            if (cell >= 0)
-                if (field[cell] > MINE_CELL) {
-                    field[cell] -= COVER_FOR_CELL;
-                    if (field[cell] == EMPTY_CELL)
-                        find_empty_cells(cell);
+            if (cell >= 0 && field[cell] > MINE_CELL) {
+                field[cell] -= COVER_FOR_CELL;
+                if (field[cell] == EMPTY_CELL) {
+                    find_empty_cells(cell);
                 }
+            }
 
             cell = j - 1;
-            if (cell >= 0)
-                if (field[cell] > MINE_CELL) {
-                    field[cell] -= COVER_FOR_CELL;
-                    if (field[cell] == EMPTY_CELL)
-                        find_empty_cells(cell);
+            if (cell >= 0 && field[cell] > MINE_CELL) {
+                field[cell] -= COVER_FOR_CELL;
+                if (field[cell] == EMPTY_CELL) {
+                    find_empty_cells(cell);
                 }
+            }
 
             cell = j + cols - 1;
-            if (cell < all_cells)
-                if (field[cell] > MINE_CELL) {
-                    field[cell] -= COVER_FOR_CELL;
-                    if (field[cell] == EMPTY_CELL)
-                        find_empty_cells(cell);
+            if (cell < all_cells && field[cell] > MINE_CELL) {
+                field[cell] -= COVER_FOR_CELL;
+                if (field[cell] == EMPTY_CELL) {
+                    find_empty_cells(cell);
                 }
+            }
         }
 
         cell = j - cols;
-        if (cell >= 0)
-            if (field[cell] > MINE_CELL) {
-                field[cell] -= COVER_FOR_CELL;
-                if (field[cell] == EMPTY_CELL)
-                    find_empty_cells(cell);
+        if (cell >= 0 && field[cell] > MINE_CELL) {
+            field[cell] -= COVER_FOR_CELL;
+            if (field[cell] == EMPTY_CELL) {
+                find_empty_cells(cell);
             }
+        }
 
         cell = j + cols;
-        if (cell < all_cells)
-            if (field[cell] > MINE_CELL) {
-                field[cell] -= COVER_FOR_CELL;
-                if (field[cell] == EMPTY_CELL)
-                    find_empty_cells(cell);
+        if (cell < all_cells && field[cell] > MINE_CELL) {
+            field[cell] -= COVER_FOR_CELL;
+            if (field[cell] == EMPTY_CELL) {
+                find_empty_cells(cell);
             }
+        }
 
         if (current_col < (cols - 1)) {
             cell = j - cols + 1;
-            if (cell >= 0)
-                if (field[cell] > MINE_CELL) {
-                    field[cell] -= COVER_FOR_CELL;
-                    if (field[cell] == EMPTY_CELL)
-                        find_empty_cells(cell);
+            if (cell >= 0 && field[cell] > MINE_CELL) {
+                field[cell] -= COVER_FOR_CELL;
+                if (field[cell] == EMPTY_CELL) {
+                    find_empty_cells(cell);
                 }
+            }
 
             cell = j + cols + 1;
-            if (cell < all_cells)
-                if (field[cell] > MINE_CELL) {
-                    field[cell] -= COVER_FOR_CELL;
-                    if (field[cell] == EMPTY_CELL)
-                        find_empty_cells(cell);
+            if (cell < all_cells && field[cell] > MINE_CELL) {
+                field[cell] -= COVER_FOR_CELL;
+                if (field[cell] == EMPTY_CELL) {
+                    find_empty_cells(cell);
                 }
+            }
 
             cell = j + 1;
-            if (cell < all_cells)
-                if (field[cell] > MINE_CELL) {
-                    field[cell] -= COVER_FOR_CELL;
-                    if (field[cell] == EMPTY_CELL)
-                        find_empty_cells(cell);
+            if (cell < all_cells && field[cell] > MINE_CELL) {
+                field[cell] -= COVER_FOR_CELL;
+                if (field[cell] == EMPTY_CELL) {
+                    find_empty_cells(cell);
                 }
+            }
         }
-
     }
 
     public void paint(Graphics g) {

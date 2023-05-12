@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 
 // separte the MinesAdapter from Board class to understand better the relation between each other and modifier
 // the identifier for some varibales in Board class 
+// and added the override to the eventhundeler
 public class MinesAdapter extends MouseAdapter {
 
     private Board board;

@@ -129,79 +129,26 @@ public class Board extends JPanel {
         }
     }
 
-    // and also changed the if blocks in this function to make it more readable
-    // without touching the logic
+    // we changed the if blocks to reduce complexity and to make it more readable
     public void find_empty_cells(int j) {
         int current_col = j % cols;
         int cell;
 
-        if (current_col > 0) {
-            cell = j - cols - 1;
-            if (cell >= 0 && field[cell] > MINE_CELL) {
-                field[cell] -= COVER_FOR_CELL;
-                if (field[cell] == EMPTY_CELL) {
-                    find_empty_cells(cell);
-                }
-            }
+        int[] offsets = { -cols - 1, -1, cols - 1, -cols, cols, -cols + 1, cols + 1, 1 };
 
-            cell = j - 1;
-            if (cell >= 0 && field[cell] > MINE_CELL) {
-                field[cell] -= COVER_FOR_CELL;
-                if (field[cell] == EMPTY_CELL) {
-                    find_empty_cells(cell);
-                }
-            }
-
-            cell = j + cols - 1;
-            if (cell < all_cells && field[cell] > MINE_CELL) {
+        for (int offset : offsets) {
+            cell = j + offset;
+            if (isValidCell(cell) && field[cell] > MINE_CELL) {
                 field[cell] -= COVER_FOR_CELL;
                 if (field[cell] == EMPTY_CELL) {
                     find_empty_cells(cell);
                 }
             }
         }
+    }
 
-        cell = j - cols;
-        if (cell >= 0 && field[cell] > MINE_CELL) {
-            field[cell] -= COVER_FOR_CELL;
-            if (field[cell] == EMPTY_CELL) {
-                find_empty_cells(cell);
-            }
-        }
-
-        cell = j + cols;
-        if (cell < all_cells && field[cell] > MINE_CELL) {
-            field[cell] -= COVER_FOR_CELL;
-            if (field[cell] == EMPTY_CELL) {
-                find_empty_cells(cell);
-            }
-        }
-
-        if (current_col < (cols - 1)) {
-            cell = j - cols + 1;
-            if (cell >= 0 && field[cell] > MINE_CELL) {
-                field[cell] -= COVER_FOR_CELL;
-                if (field[cell] == EMPTY_CELL) {
-                    find_empty_cells(cell);
-                }
-            }
-
-            cell = j + cols + 1;
-            if (cell < all_cells && field[cell] > MINE_CELL) {
-                field[cell] -= COVER_FOR_CELL;
-                if (field[cell] == EMPTY_CELL) {
-                    find_empty_cells(cell);
-                }
-            }
-
-            cell = j + 1;
-            if (cell < all_cells && field[cell] > MINE_CELL) {
-                field[cell] -= COVER_FOR_CELL;
-                if (field[cell] == EMPTY_CELL) {
-                    find_empty_cells(cell);
-                }
-            }
-        }
+    private boolean isValidCell(int cell) {
+        return cell >= 0 && cell < all_cells;
     }
 
     // reduced the cognitive complexity from 26 to 15 in the method paint

@@ -204,49 +204,61 @@ public class Board extends JPanel {
         }
     }
 
+    // reduced the cognitive complexity from 26 to 15 in the method paint
     public void paint(Graphics g) {
-
-        int cell = 0;
         int uncover = 0;
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-
-                cell = field[(i * cols) + j];
+                int cell = field[(i * cols) + j];
 
                 if (inGame && cell == MINE_CELL)
                     inGame = false;
 
                 if (!inGame) {
-                    if (cell == COVERED_MINE_CELL) {
-                        cell = DRAW_MINE;
-                    } else if (cell == MARKED_MINE_CELL) {
-                        cell = DRAW_MARK;
-                    } else if (cell > COVERED_MINE_CELL) {
-                        cell = DRAW_WRONG_MARK;
-                    } else if (cell > MINE_CELL) {
-                        cell = DRAW_COVER;
-                    }
-
+                    cell = processEndGameCell(cell);
                 } else {
-                    if (cell > COVERED_MINE_CELL)
-                        cell = DRAW_MARK;
-                    else if (cell > MINE_CELL) {
-                        cell = DRAW_COVER;
+                    cell = processOngoingGameCell(cell);
+                    if (cell > MINE_CELL)
                         uncover++;
-                    }
                 }
 
-                g.drawImage(img[cell], (j * CELL_SIZE),
-                        (i * CELL_SIZE), this);
+                g.drawImage(img[cell], (j * CELL_SIZE), (i * CELL_SIZE), this);
             }
         }
 
+        updateGameStatus(uncover);
+    }
+
+    private int processEndGameCell(int cell) {
+        if (cell == COVERED_MINE_CELL) {
+            return DRAW_MINE;
+        } else if (cell == MARKED_MINE_CELL) {
+            return DRAW_MARK;
+        } else if (cell > COVERED_MINE_CELL) {
+            return DRAW_WRONG_MARK;
+        } else if (cell > MINE_CELL) {
+            return DRAW_COVER;
+        }
+        return cell;
+    }
+
+    private int processOngoingGameCell(int cell) {
+        if (cell > COVERED_MINE_CELL) {
+            return DRAW_MARK;
+        } else if (cell > MINE_CELL) {
+            return DRAW_COVER;
+        }
+        return cell;
+    }
+
+    private void updateGameStatus(int uncover) {
         if (uncover == 0 && inGame) {
             inGame = false;
             statusbar.setText("Game won");
-        } else if (!inGame)
+        } else if (!inGame) {
             statusbar.setText("Game lost");
+        }
     }
 
 }

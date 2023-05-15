@@ -20,8 +20,8 @@ public class MinesAdapter extends MouseAdapter {
         int x = e.getX();
         int y = e.getY();
 
-        int cCol = x / board.CELL_SIZE;
-        int cRow = y / board.CELL_SIZE;
+        int cCol = x / board.Cell_size;
+        int cRow = y / board.Cell_size;
 
         boolean rep = false;
 
@@ -30,23 +30,23 @@ public class MinesAdapter extends MouseAdapter {
             board.repaint();
         }
 
-        if ((x < board.cols * board.CELL_SIZE) && (y < board.rows * board.CELL_SIZE)) {
+        if ((x < board.cols * board.Cell_size) && (y < board.rows * board.Cell_size)) {
 
             if (e.getButton() == MouseEvent.BUTTON3) {
 
-                if (board.field[(cRow * board.cols) + cCol] > board.MINE_CELL) {
+                if (board.field[(cRow * board.cols) + cCol] > board.Mine_cell) {
                     rep = true;
 
-                    if (board.field[(cRow * board.cols) + cCol] <= board.COVERED_MINE_CELL) {
+                    if (board.field[(cRow * board.cols) + cCol] <= board.Covered_Mine_cell) {
                         if (board.mines_left > 0) {
-                            board.field[(cRow * board.cols) + cCol] += board.MARK_FOR_CELL;
+                            board.field[(cRow * board.cols) + cCol] += board.Mark_for_cell;
                             board.mines_left--;
                             board.statusbar.setText(Integer.toString(board.mines_left));
                         } else
                             board.statusbar.setText("No marks left");
                     } else {
 
-                        board.field[(cRow * board.cols) + cCol] -= board.MARK_FOR_CELL;
+                        board.field[(cRow * board.cols) + cCol] -= board.Mark_for_cell;
                         board.mines_left++;
                         board.statusbar.setText(Integer.toString(board.mines_left));
                     }
@@ -54,20 +54,20 @@ public class MinesAdapter extends MouseAdapter {
 
             } else {
 
-                if (board.field[(cRow * board.cols) + cCol] > board.COVERED_MINE_CELL) {
+                if (board.field[(cRow * board.cols) + cCol] > board.Covered_Mine_cell) {
                     return;
                 }
 
-                if ((board.field[(cRow * board.cols) + cCol] > board.MINE_CELL) &&
-                        (board.field[(cRow * board.cols) + cCol] < board.MARKED_MINE_CELL)) {
+                if ((board.field[(cRow * board.cols) + cCol] > board.Mine_cell) &&
+                        (board.field[(cRow * board.cols) + cCol] < board.Marked_Mine_cell)) {
 
-                    board.field[(cRow * board.cols) + cCol] -= board.COVER_FOR_CELL;
+                    board.field[(cRow * board.cols) + cCol] -= board.Cover_for_cell;
                     rep = true;
 
-                    if (board.field[(cRow * board.cols) + cCol] == board.MINE_CELL)
+                    if (board.field[(cRow * board.cols) + cCol] == board.Mine_cell)
                         board.inGame = false;
-                    if (board.field[(cRow * board.cols) + cCol] == board.EMPTY_CELL)
-                        board.find_empty_cells((cRow * board.cols) + cCol);
+                    if (board.field[(cRow * board.cols) + cCol] == board.Empty_cell)
+                        board.find_Empty_cells((cRow * board.cols) + cCol);
                 }
             }
 

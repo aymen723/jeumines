@@ -3,16 +3,46 @@ package mines;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-// separte the MinesAdapter from Board class to understand better the relation between each other and modifier
-// the identifier for some varibales in Board class 
+/**
+ * 
+ * The MinesAdapter class is a mouse adapter for handling mouse events in the
+ * Minesweeper game.
+ * 
+ * It listens for mouse clicks and performs appropriate actions based on the
+ * game state and mouse button clicked.
+ * 
+ * This class is responsible for handling user interactions with the game board.
+ * 
+ * @version 1.0
+ */
+// separte the MinesAdapter from Board class to understand better the relation
+// between each other and modifier
+// the identifier for some varibales in Board class
 // and added the override to the eventhundeler
 public class MinesAdapter extends MouseAdapter {
 
+    /**
+     * 
+     * Constructs a MinesAdapter object with the specified Board object.
+     * 
+     * @param board the Board object representing the game board
+     */
     private Board board;
 
     public MinesAdapter(Board board) {
         this.board = board;
     }
+
+    /**
+     * 
+     * Handles the mousePressed event triggered by a mouse click.
+     * 
+     * It determines the cell position based on the mouse coordinates,
+     * 
+     * and performs the appropriate action based on the button clicked.
+     * 
+     * @param e the MouseEvent object representing the mouse event
+     */
 
     @Override
     public void mousePressed(MouseEvent e) {
@@ -34,6 +64,8 @@ public class MinesAdapter extends MouseAdapter {
 
             if (e.getButton() == MouseEvent.BUTTON3) {
 
+                // Right mouse button clicked
+
                 if (board.field[(cRow * board.cols) + cCol] > board.Mine_cell) {
                     rep = true;
 
@@ -53,6 +85,8 @@ public class MinesAdapter extends MouseAdapter {
                 }
 
             } else {
+
+                // Left mouse button clicked
 
                 if (board.field[(cRow * board.cols) + cCol] > board.Covered_Mine_cell) {
                     return;
@@ -76,4 +110,5 @@ public class MinesAdapter extends MouseAdapter {
 
         }
     }
+
 }

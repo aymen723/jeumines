@@ -7,7 +7,21 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-// and changed here the indentifier for the variables from priavte to public 
+/**
+ * 
+ * The Board class represents the game board for the Minesweeper game.
+ * 
+ * It extends JPanel and provides functionality for creating and managing the
+ * game board.
+ * 
+ * The board contains cells that can be uncovered, marked, or contain a mine.
+ * 
+ * It also tracks the game status and handles user interactions.
+ * 
+ * 
+ * @version 1.0
+ */
+// and changed here the indentifier for the variables from priavte to public
 public class Board extends JPanel {
     private static final long serialVersionUID = 6195235521361212179L;
 
@@ -37,6 +51,16 @@ public class Board extends JPanel {
     public int all_cells;
     public JLabel statusbar;
 
+    /**
+     * 
+     * Constructs a Board object with the specified status bar.
+     * 
+     * It initializes the game board, sets up the images, and registers a
+     * MinesAdapter mouse listener.
+     * 
+     * @param statusbar the JLabel used as the status bar for the game
+     */
+
     public Board(JLabel statusbar) {
 
         this.statusbar = statusbar;
@@ -55,6 +79,16 @@ public class Board extends JPanel {
 
     }
 
+    /**
+     * 
+     * Starts a new game by initializing the game board and setting the initial game
+     * status.
+     * 
+     * It randomly places the mines on the board and calculates the adjacent mine
+     * counts for each cell.
+     * 
+     * The status bar is updated with the number of mines left.
+     */
     // changed the complexity of the function new game to reduce to 15 and makeing
     // the if blocks more readable
     public void newGame() {

@@ -51,6 +51,12 @@ public class Board extends JPanel {
     public int all_cells;
     public JLabel statusbar;
 
+    SecureRandom random = new SecureRandom();
+
+    public int generateSecureKey(int gene) {
+        return random.nextInt(gene);
+    }
+
     /**
      * 
      * Constructs a Board object with the specified status bar.
@@ -94,7 +100,7 @@ public class Board extends JPanel {
     public void newGame() {
         // we changed Random to SecureRandom to make it more Secure and better random
         // generator
-        SecureRandom random = new SecureRandom();
+        // SecureRandom random = new SecureRandom();
         int i = 0;
         int position;
         int cell;
@@ -110,7 +116,7 @@ public class Board extends JPanel {
 
         i = 0;
         while (i < mines) {
-            position = random.nextInt(all_cells);
+            position = generateSecureKey(all_cells);
             if (field[position] != Covered_Mine_cell) {
                 field[position] = Covered_Mine_cell;
                 i++;
